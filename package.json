@@ -1,0 +1,14 @@
+{
+  "name": "webrtc-video-chat",
+  "version": "0.0.1",
+  "description": "Video Chat (WebRTC). A simple example of using WebRTC technology to create a video chat.",
+  "main": "index.js",
+  "repository": "https://github.com/GrafSoul/webrtc-video-chat.git",
+  "author": "GrafSoul <grafsoul@gmail.com>",
+  "license": "MIT",
+  "private": null,
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
