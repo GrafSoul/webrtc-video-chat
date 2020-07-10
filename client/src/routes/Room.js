@@ -12,6 +12,7 @@ const Room = (props) => {
     const socketRef = useRef();
     const otherUser = useRef();
     const userStream = useRef();
+    const senders = useRef([]);
 
     useEffect(() => {
         navigator.mediaDevices
@@ -44,7 +45,9 @@ const Room = (props) => {
         userStream.current
             .getTracks()
             .forEach((track) =>
-                peerRef.current.addTrack(track, userStream.current),
+                senders.current.push(
+                    peerRef.current.addTrack(track, userStream.current),
+                ),
             );
     }
 
@@ -139,6 +142,22 @@ const Room = (props) => {
         partnerVideo.current.srcObject = e.streams[0];
     }
 
+    function shareScreen() {
+        navigator.mediaDevices
+            .getDisplayMedia({ cursor: true })
+            .then((stream) => {
+                const screenTrack = stream.getTracks()[0];
+                senders.current
+                    .find((sender) => sender.track.kind === 'video')
+                    .replaceTrack(screenTrack);
+                screenTrack.onended = function () {
+                    senders.current
+                        .find((sender) => sender.track.kind === 'video')
+                        .replaceTrack(userStream.current.getTracks()[1]);
+                };
+            });
+    }
+
     function handleToggleMic() {
         setAudio(!audio);
     }
@@ -162,19 +181,39 @@ const Room = (props) => {
 
     return (
         <div>
-            <video
-                autoPlay
-                ref={userVideo}
-                style={{ border: '4px solid red' }}
-            ></video>
-            <video
-                autoPlay
-                ref={partnerVideo}
-                style={{ border: '4px solid blue' }}
-            ></video>
+            <div style={{ display: 'flex', width: '1050px', margin: 'auto' }}>
+                <div>
+                    <h3>User (I'm)</h3>
+                    <video
+                        controls
+                        autoPlay
+                        ref={userVideo}
+                        style={{
+                            border: '4px solid red',
+                            height: 500,
+                            width: 500,
+                        }}
+                    ></video>
+                </div>
+
+                <div>
+                    <h3>Partner</h3>
+                    <video
+                        controls
+                        autoPlay
+                        ref={partnerVideo}
+                        style={{
+                            border: '4px solid blue',
+                            height: 500,
+                            width: 500,
+                        }}
+                    ></video>
+                </div>
+            </div>
             <div>
-                <button onClick={() => handleToggleMic()}>Microphone</button>
-                <button onClick={() => handleToggleCam()}>Camera</button>
+                <button onClick={handleToggleMic}>Microphone</button>
+                <button onClick={handleToggleCam}>Camera</button>
+                <button onClick={shareScreen}>Share screen</button>
             </div>
             <div>
                 URL for Contact: {window.location.href}
