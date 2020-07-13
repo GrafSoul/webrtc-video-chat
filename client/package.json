@@ -5,6 +5,7 @@
     "proxy": "http://localhost:5000",
     "dependencies": {
         "cra-template": "1.0.3",
+        "qrcode.react": "^1.0.0",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
         "react-router-dom": "^5.2.0",

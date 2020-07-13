@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import QRCode from 'qrcode.react';
 
 const Room = (props) => {
     const [audio, setAudio] = useState(true);
@@ -214,6 +215,9 @@ const Room = (props) => {
                 <button onClick={handleToggleMic}>Microphone</button>
                 <button onClick={handleToggleCam}>Camera</button>
                 <button onClick={shareScreen}>Share screen</button>
+            </div>
+            <div>
+                <QRCode value={window.location.href} />
             </div>
             <div>
                 URL for Contact: {window.location.href}
