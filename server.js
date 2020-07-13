@@ -1,11 +1,20 @@
+require('dotenv').config();
+const path = require('path');
 const express = require('express'); // Added express server
 const http = require('http'); // Added HTTP-server
 const socket = require('socket.io'); // Added Socket.io
-const port = 8000;
+const port = process.env.PORT || 5000;
 
 const app = express(); // Created an instance of Express
 
 const server = http.createServer(app); // Created a server instance
+
+// if (process.env.PROD) {
+app.use(express.static(path.join(__dirname, './client/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
+// }
 
 const io = socket(server); // Connected sockets to the server
 

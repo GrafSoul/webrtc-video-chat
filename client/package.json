@@ -2,7 +2,7 @@
     "name": "client",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:8000",
+    "proxy": "http://localhost:5000",
     "dependencies": {
         "cra-template": "1.0.3",
         "react": "^16.9.0",
@@ -16,7 +16,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "postinstall": "yarn build"
     },
     "eslintConfig": {
         "extends": "react-app"
