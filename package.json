@@ -2,14 +2,14 @@
     "name": "webrtc-video-chat",
     "version": "0.0.1",
     "description": "Video Chat (WebRTC). A simple example of using WebRTC technology to create a video chat.",
-    "main": "server.js",
+    "main": "./server/index.js",
     "repository": "https://github.com/GrafSoul/webrtc-video-chat.git",
     "author": "GrafSoul <grafsoul@gmail.com>",
     "license": "MIT",
     "private": true,
     "scripts": {
-        "dev": "node server.js",
-        "start": "PROD=true node server.js",
+        "dev": "node ./server/index.js",
+        "start": "PROD=true node ./server/index.js",
         "postinstall": "cd ./client && yarn",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
