@@ -14,12 +14,14 @@ if (process.env.PROD) {
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, './client/build/index.html'));
     });
-} else {
-    app.use(express.static(path.join(__dirname, '/')));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'index.html'));
-    });
 }
+
+// else {
+//     app.use(express.static(path.join(__dirname, '/')));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.join(__dirname, 'index.html'));
+//     });
+// }
 
 const io = socket(server); // Connected sockets to the server
 
