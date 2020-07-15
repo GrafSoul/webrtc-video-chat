@@ -1,0 +1,41 @@
+.video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    video {
+        width: 100vw;
+        height: 100vh;
+
+        &.active {
+            object-fit: cover;
+        }
+    }
+
+    .user-video {
+        position: absolute;
+        top: 50px;
+        right: 15px;
+
+        video {
+            width: 170px;
+            height: 130px;
+            border: 3px solid $color-primary-light;
+        }
+
+    }
+}
+
+.stream-control {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 10px 40px;
+
+    .btn-group {
+        text-align: center;
+    }
+}

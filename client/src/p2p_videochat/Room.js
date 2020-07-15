@@ -1,11 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import QRCode from 'qrcode.react';
 
-const Room = (props) => {
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+const Room = ({ match }) => {
     const [audio, setAudio] = useState(true);
     const [video, setVideo] = useState(true);
     const [isCopied, setIsCopied] = useState(false);
+    const [fullScr, setFullScr] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -23,7 +26,7 @@ const Room = (props) => {
                 userStream.current = stream;
 
                 socketRef.current = io.connect('/');
-                socketRef.current.emit('join room', props.match.params.roomID);
+                socketRef.current.emit('join room', match.params.roomID);
                 socketRef.current.on('other user', (userID) => {
                     callUser(userID);
                     otherUser.current = userID;
@@ -143,7 +146,7 @@ const Room = (props) => {
         partnerVideo.current.srcObject = e.streams[0];
     }
 
-    function shareScreen() {
+    function handleShareScreen() {
         navigator.mediaDevices
             .getDisplayMedia({ cursor: true })
             .then((stream) => {
@@ -167,6 +170,10 @@ const Room = (props) => {
         setVideo(!video);
     }
 
+    function handleToggleFullScr() {
+        setFullScr(!fullScr);
+    }
+
     function handleCopyLink(url) {
         navigator.clipboard
             .writeText(url)
@@ -181,52 +188,36 @@ const Room = (props) => {
     }
 
     return (
-        <div>
-            <div style={{ display: 'flex', width: '1050px', margin: 'auto' }}>
-                <div>
-                    <h3>User (I'm)</h3>
-                    <video
-                        controls
-                        autoPlay
-                        ref={userVideo}
-                        style={{
-                            border: '4px solid red',
-                            height: 500,
-                            width: 500,
-                        }}
-                    ></video>
-                </div>
+        <>
+            <Header />
 
-                <div>
-                    <h3>Partner</h3>
-                    <video
-                        controls
-                        autoPlay
-                        ref={partnerVideo}
-                        style={{
-                            border: '4px solid blue',
-                            height: 500,
-                            width: 500,
-                        }}
-                    ></video>
+            <div className="video">
+                <video
+                    autoPlay
+                    ref={partnerVideo}
+                    className={fullScr ? 'active' : null}
+                ></video>
+                <div className="user-video">
+                    <video autoPlay muted ref={userVideo}></video>
                 </div>
             </div>
-            <div>
-                <button onClick={handleToggleMic}>Microphone</button>
-                <button onClick={handleToggleCam}>Camera</button>
-                <button onClick={shareScreen}>Share screen</button>
+
+            <div className="stream-control">
+                <div className="btn-group">
+                    <button onClick={handleToggleMic}>Microphone</button>
+                    <button onClick={handleToggleCam}>Camera</button>
+                    <button onClick={handleToggleFullScr}>Fullscreen</button>
+                    <button onClick={handleShareScreen}>Share screen</button>
+                    <button
+                        onClick={() => handleCopyLink(window.location.href)}
+                    >
+                        Copy link
+                    </button>{' '}
+                    {isCopied && <span>Copied!</span>}
+                </div>
             </div>
-            <div>
-                <QRCode value={window.location.href} />
-            </div>
-            <div>
-                URL for Contact: {window.location.href}
-                <button onClick={() => handleCopyLink(window.location.href)}>
-                    Copy
-                </button>{' '}
-                {isCopied && <span>Copied!</span>}
-            </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 
