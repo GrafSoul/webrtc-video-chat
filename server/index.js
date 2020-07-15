@@ -10,18 +10,16 @@ const app = express(); // Created an instance of Express
 const server = http.createServer(app); // Created a server instance
 
 if (process.env.PROD) {
-    app.use(express.static(path.join(__dirname, './client/build')));
+    app.use(express.static(path.join(__dirname, '../client/build')));
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, './client/build/index.html'));
+        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
+} else {
+    app.use(express.static(path.join(__dirname, '/')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'index.html'));
     });
 }
-
-// else {
-//     app.use(express.static(path.join(__dirname, '/')));
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.join(__dirname, 'index.html'));
-//     });
-// }
 
 const io = socket(server); // Connected sockets to the server
 
