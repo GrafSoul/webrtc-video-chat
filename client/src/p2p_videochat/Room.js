@@ -7,8 +7,11 @@ import Footer from '../components/Footer';
 const Room = ({ match }) => {
     const [audio, setAudio] = useState(true);
     const [video, setVideo] = useState(true);
+    const [sound, setSound] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
-    const [fullScr, setFullScr] = useState(false);
+    const [fullScreen, setFullScreen] = useState(false);
+    const [settings, setSettings] = useState(false);
+    const [share, setShare] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -146,7 +149,7 @@ const Room = ({ match }) => {
         partnerVideo.current.srcObject = e.streams[0];
     }
 
-    function handleShareScreen() {
+    function handleShareMonitor() {
         navigator.mediaDevices
             .getDisplayMedia({ cursor: true })
             .then((stream) => {
@@ -162,16 +165,24 @@ const Room = ({ match }) => {
             });
     }
 
+    function handleToggleSettings() {
+        setSettings(!settings);
+    }
+
+    function handleToggleSound() {
+        setSound(!sound);
+    }
+
     function handleToggleMic() {
         setAudio(!audio);
     }
 
-    function handleToggleCam() {
+    function handleToggleCamera() {
         setVideo(!video);
     }
 
-    function handleToggleFullScr() {
-        setFullScr(!fullScr);
+    function handleToggleFullScreen() {
+        setFullScreen(!fullScreen);
     }
 
     function handleCopyLink(url) {
@@ -187,27 +198,59 @@ const Room = ({ match }) => {
             });
     }
 
+    function handleShareLink() {
+        setShare(!share);
+    }
+
+    function openFullMonitor() {
+        const elem = document.getElementById('partner');
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            /* Firefox */
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+    }
+
     return (
         <>
             <Header />
 
             <div className="video">
                 <video
+                    id="partner"
+                    poster="images/poster.jpg"
                     autoPlay
+                    muted={sound}
                     ref={partnerVideo}
-                    className={fullScr ? 'active' : null}
+                    className={fullScreen ? 'active' : null}
                 ></video>
                 <div className="user-video">
-                    <video autoPlay muted ref={userVideo}></video>
+                    <video
+                        autoPlay
+                        muted
+                        ref={userVideo}
+                        poster="images/poster.jpg"
+                    ></video>
                 </div>
             </div>
 
             <div className="stream-control">
                 <div className="btn-group">
+                    <button onClick={handleShareLink}>Link</button>
                     <button onClick={handleToggleMic}>Microphone</button>
-                    <button onClick={handleToggleCam}>Camera</button>
-                    <button onClick={handleToggleFullScr}>Fullscreen</button>
-                    <button onClick={handleShareScreen}>Share screen</button>
+                    <button onClick={handleToggleSound}>Sound</button>
+                    <button onClick={handleToggleCamera}>Camera</button>
+                    <button onClick={handleToggleFullScreen}>FullScreen</button>
+                    <button onClick={openFullMonitor}>Monitor</button>
+                    <button onClick={handleShareMonitor}>Share Monitor</button>
+                    <button onClick={handleToggleSettings}>Settings</button>
                     <button
                         onClick={() => handleCopyLink(window.location.href)}
                     >
@@ -217,6 +260,12 @@ const Room = ({ match }) => {
                 </div>
             </div>
             <Footer />
+
+            <din
+                className={['settings', settings ? 'active' : null].join(' ')}
+            ></din>
+
+            <din className={['link', share ? 'active' : null].join(' ')}></din>
         </>
     );
 };
