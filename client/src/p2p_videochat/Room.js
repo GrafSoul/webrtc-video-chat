@@ -1,17 +1,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import QRCodeImage from '../components/QRCodeImage';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const Room = ({ match }) => {
+const Room = ({ match, history }) => {
     const [audio, setAudio] = useState(true);
     const [video, setVideo] = useState(true);
     const [sound, setSound] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
     const [fullScreen, setFullScreen] = useState(false);
     const [settings, setSettings] = useState(false);
-    const [share, setShare] = useState(false);
+    const [shareLink, setShareLink] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -199,7 +200,7 @@ const Room = ({ match }) => {
     }
 
     function handleShareLink() {
-        setShare(!share);
+        setShareLink(!shareLink);
     }
 
     function openFullMonitor() {
@@ -218,9 +219,19 @@ const Room = ({ match }) => {
         }
     }
 
+    const exitRoom = () => {
+        history.push('/');
+    };
+
     return (
         <>
             <Header />
+
+            <div className="btn-exit-wrap">
+                <button className="btn-exit" onClick={exitRoom} title="Exit">
+                    <span className="icon icon-exit"></span>
+                </button>
+            </div>
 
             <div className="video">
                 <video
@@ -242,30 +253,116 @@ const Room = ({ match }) => {
             </div>
 
             <div className="stream-control">
-                <div className="btn-group">
-                    <button onClick={handleShareLink}>Link</button>
-                    <button onClick={handleToggleMic}>Microphone</button>
-                    <button onClick={handleToggleSound}>Sound</button>
-                    <button onClick={handleToggleCamera}>Camera</button>
-                    <button onClick={handleToggleFullScreen}>FullScreen</button>
-                    <button onClick={openFullMonitor}>Monitor</button>
-                    <button onClick={handleShareMonitor}>Share Monitor</button>
-                    <button onClick={handleToggleSettings}>Settings</button>
+                <div className="btn-link">
                     <button
-                        onClick={() => handleCopyLink(window.location.href)}
+                        className="btn"
+                        onClick={handleShareLink}
+                        title="Open Link"
                     >
-                        Copy link
-                    </button>{' '}
-                    {isCopied && <span>Copied!</span>}
+                        <span className="icon icon-link"></span>
+                    </button>
+                </div>
+
+                <div className="btn-group">
+                    <button
+                        className="btn"
+                        onClick={handleToggleMic}
+                        title="Microphone ON/OFF"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-mic',
+                                audio ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={handleToggleCamera}
+                        title="Camera ON/OFF"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-camera',
+                                video ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={handleToggleSound}
+                        title="Sound ON/OFF"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-sound',
+                                sound ? 'off' : null,
+                            ].join(' ')}
+                        ></span>
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={handleToggleFullScreen}
+                        title="Fullscreen ON/OFF"
+                    >
+                        <span className="icon icon-fullscreen"></span>
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={openFullMonitor}
+                        title="Monitor"
+                    >
+                        <span className="icon icon-monitor"></span>
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={handleShareMonitor}
+                        title="Share Content"
+                    >
+                        <span className="icon icon-share"></span>
+                    </button>
+                </div>
+
+                <div className="btn-settings">
+                    <button
+                        className="btn"
+                        onClick={handleToggleSettings}
+                        title="Open Settings"
+                    >
+                        <span className="icon icon-settings"></span>
+                    </button>
                 </div>
             </div>
             <Footer />
 
-            <din
-                className={['settings', settings ? 'active' : null].join(' ')}
-            ></din>
+            <din className={['settings', settings ? 'active' : null].join(' ')}>
+                <button
+                    className="btn-close"
+                    onClick={handleToggleSettings}
+                    title="Close"
+                >
+                    <span className="icon icon-close"></span>
+                </button>
+            </din>
 
-            <din className={['link', share ? 'active' : null].join(' ')}></din>
+            <din className={['link', shareLink ? 'active' : null].join(' ')}>
+                <button
+                    className="btn-close"
+                    onClick={handleShareLink}
+                    title="Close"
+                >
+                    <span className="icon icon-close"></span>
+                </button>
+                <p>{window.location.href}</p>
+                <button onClick={() => handleCopyLink(window.location.href)}>
+                    Copy link
+                </button>{' '}
+                {isCopied && <span>Copied!</span>}
+                <QRCodeImage url={window.location.href} />
+            </din>
         </>
     );
 };
