@@ -1,23 +1,30 @@
 .settings {
     width: 300px;
+    padding: 50px 20px 20px;
     position: absolute;
     right: -310px;
     top: 0;
     bottom: 0;
     border-left: 3px solid $color-primary-light;
-    background-color: $color-grey-light-1;
-    box-shadow: -3px -3px 10px rgba(0, 0, 0, .5);
+    background-color: $color-primary-dark;
+    box-shadow: -3px -3px 10px rgba(0, 0, 0, 0.5);
     z-index: 110;
-    transition: .3s all ease;
+    transition: 0.3s all ease;
 
     &.active {
         right: 0;
     }
 
+    h2 {
+        margin-bottom: 20px;
+        color: $color-white;
+        font-size: 1.4em;
+    }
+
     .btn-close {
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         width: 50px;
         height: 50px;
         padding: 0;
@@ -28,7 +35,7 @@
         outline: none;
         background-color: transparent;
         cursor: pointer;
-        transition: .3s all ease;
+        transition: 0.3s all ease;
 
         &:hover {
             opacity: 0.5;

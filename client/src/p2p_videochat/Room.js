@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import QRCodeImage from '../components/QRCodeImage';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LinkRoom from '../components/LinkRoom';
+import SettingsRoom from '../components/SettingsRoom';
+import StreamControl from '../components/StreamControl';
+import ExitButton from '../components/ExitButton';
 
 const Room = ({ match, history }) => {
     const [audio, setAudio] = useState(true);
@@ -23,6 +26,67 @@ const Room = ({ match, history }) => {
     const senders = useRef([]);
 
     useEffect(() => {
+        function callUser(userID) {
+            peerRef.current = createPeer(userID);
+            userStream.current
+                .getTracks()
+                .forEach((track) =>
+                    senders.current.push(
+                        peerRef.current.addTrack(track, userStream.current),
+                    ),
+                );
+        }
+
+        function createPeer(userID) {
+            const peer = new RTCPeerConnection({
+                iceServers: [
+                    {
+                        urls: 'stun:stun.stunprotocol.org',
+                    },
+                    {
+                        urls: 'turn:numb.viagenie.ca',
+                        credential: 'muazkh',
+                        username: 'webrtc@live.com',
+                    },
+                ],
+            });
+
+            peer.onicecandidate = handleICECandidateEvent;
+            peer.ontrack = handleTrackEvent;
+            peer.onnegotiationneeded = () =>
+                handleNegotiationNeededEvent(userID);
+
+            return peer;
+        }
+
+        function handleRecieveCall(incoming) {
+            peerRef.current = createPeer();
+            const desc = new RTCSessionDescription(incoming.sdp);
+            peerRef.current
+                .setRemoteDescription(desc)
+                .then(() => {
+                    userStream.current
+                        .getTracks()
+                        .forEach((track) =>
+                            peerRef.current.addTrack(track, userStream.current),
+                        );
+                })
+                .then(() => {
+                    return peerRef.current.createAnswer();
+                })
+                .then((answer) => {
+                    return peerRef.current.setLocalDescription(answer);
+                })
+                .then(() => {
+                    const payload = {
+                        target: incoming.caller,
+                        caller: socketRef.current.id,
+                        sdp: peerRef.current.localDescription,
+                    };
+                    socketRef.current.emit('answer', payload);
+                });
+        }
+
         navigator.mediaDevices
             .getUserMedia({ audio: audio, video: video })
             .then((stream) => {
@@ -46,39 +110,7 @@ const Room = ({ match, history }) => {
 
                 socketRef.current.on('ice-candidate', handleNewICECandidateMsg);
             });
-    }, [audio, video]);
-
-    function callUser(userID) {
-        peerRef.current = createPeer(userID);
-        userStream.current
-            .getTracks()
-            .forEach((track) =>
-                senders.current.push(
-                    peerRef.current.addTrack(track, userStream.current),
-                ),
-            );
-    }
-
-    function createPeer(userID) {
-        const peer = new RTCPeerConnection({
-            iceServers: [
-                {
-                    urls: 'stun:stun.stunprotocol.org',
-                },
-                {
-                    urls: 'turn:numb.viagenie.ca',
-                    credential: 'muazkh',
-                    username: 'webrtc@live.com',
-                },
-            ],
-        });
-
-        peer.onicecandidate = handleICECandidateEvent;
-        peer.ontrack = handleTrackEvent;
-        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
-
-        return peer;
-    }
+    }, [audio, video, match]);
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current
@@ -95,34 +127,6 @@ const Room = ({ match, history }) => {
                 socketRef.current.emit('offer', payload);
             })
             .catch((e) => console.log(e));
-    }
-
-    function handleRecieveCall(incoming) {
-        peerRef.current = createPeer();
-        const desc = new RTCSessionDescription(incoming.sdp);
-        peerRef.current
-            .setRemoteDescription(desc)
-            .then(() => {
-                userStream.current
-                    .getTracks()
-                    .forEach((track) =>
-                        peerRef.current.addTrack(track, userStream.current),
-                    );
-            })
-            .then(() => {
-                return peerRef.current.createAnswer();
-            })
-            .then((answer) => {
-                return peerRef.current.setLocalDescription(answer);
-            })
-            .then(() => {
-                const payload = {
-                    target: incoming.caller,
-                    caller: socketRef.current.id,
-                    sdp: peerRef.current.localDescription,
-                };
-                socketRef.current.emit('answer', payload);
-            });
     }
 
     function handleAnswer(message) {
@@ -227,11 +231,7 @@ const Room = ({ match, history }) => {
         <>
             <Header />
 
-            <div className="btn-exit-wrap">
-                <button className="btn-exit" onClick={exitRoom} title="Exit">
-                    <span className="icon icon-exit"></span>
-                </button>
-            </div>
+            <ExitButton exitRoom={exitRoom} />
 
             <div className="video">
                 <video
@@ -252,117 +252,34 @@ const Room = ({ match, history }) => {
                 </div>
             </div>
 
-            <div className="stream-control">
-                <div className="btn-link">
-                    <button
-                        className="btn"
-                        onClick={handleShareLink}
-                        title="Open Link"
-                    >
-                        <span className="icon icon-link"></span>
-                    </button>
-                </div>
+            <StreamControl
+                handleShareLink={handleShareLink}
+                handleToggleMic={handleToggleMic}
+                audio={audio}
+                handleToggleCamera={handleToggleCamera}
+                video={video}
+                handleToggleSound={handleToggleSound}
+                sound={sound}
+                handleToggleFullScreen={handleToggleFullScreen}
+                openFullMonitor={openFullMonitor}
+                handleShareMonitor={handleShareMonitor}
+                handleToggleSettings={handleToggleSettings}
+            />
 
-                <div className="btn-group">
-                    <button
-                        className="btn"
-                        onClick={handleToggleMic}
-                        title="Microphone ON/OFF"
-                    >
-                        <span
-                            className={[
-                                'icon',
-                                'icon-mic',
-                                audio ? null : 'off',
-                            ].join(' ')}
-                        ></span>
-                    </button>
-                    <button
-                        className="btn"
-                        onClick={handleToggleCamera}
-                        title="Camera ON/OFF"
-                    >
-                        <span
-                            className={[
-                                'icon',
-                                'icon-camera',
-                                video ? null : 'off',
-                            ].join(' ')}
-                        ></span>
-                    </button>
-                    <button
-                        className="btn"
-                        onClick={handleToggleSound}
-                        title="Sound ON/OFF"
-                    >
-                        <span
-                            className={[
-                                'icon',
-                                'icon-sound',
-                                sound ? 'off' : null,
-                            ].join(' ')}
-                        ></span>
-                    </button>
-                    <button
-                        className="btn"
-                        onClick={handleToggleFullScreen}
-                        title="Fullscreen ON/OFF"
-                    >
-                        <span className="icon icon-fullscreen"></span>
-                    </button>
-                    <button
-                        className="btn"
-                        onClick={openFullMonitor}
-                        title="Monitor"
-                    >
-                        <span className="icon icon-monitor"></span>
-                    </button>
-                    <button
-                        className="btn"
-                        onClick={handleShareMonitor}
-                        title="Share Content"
-                    >
-                        <span className="icon icon-share"></span>
-                    </button>
-                </div>
-
-                <div className="btn-settings">
-                    <button
-                        className="btn"
-                        onClick={handleToggleSettings}
-                        title="Open Settings"
-                    >
-                        <span className="icon icon-settings"></span>
-                    </button>
-                </div>
-            </div>
             <Footer />
 
-            <din className={['settings', settings ? 'active' : null].join(' ')}>
-                <button
-                    className="btn-close"
-                    onClick={handleToggleSettings}
-                    title="Close"
-                >
-                    <span className="icon icon-close"></span>
-                </button>
-            </din>
+            <SettingsRoom
+                settings={settings}
+                handleToggleSettings={handleToggleSettings}
+            />
 
-            <din className={['link', shareLink ? 'active' : null].join(' ')}>
-                <button
-                    className="btn-close"
-                    onClick={handleShareLink}
-                    title="Close"
-                >
-                    <span className="icon icon-close"></span>
-                </button>
-                <p>{window.location.href}</p>
-                <button onClick={() => handleCopyLink(window.location.href)}>
-                    Copy link
-                </button>{' '}
-                {isCopied && <span>Copied!</span>}
-                <QRCodeImage url={window.location.href} />
-            </din>
+            <LinkRoom
+                shareLink={shareLink}
+                handleShareLink={handleShareLink}
+                handleCopyLink={handleCopyLink}
+                copied={isCopied}
+                url={window.location.href}
+            />
         </>
     );
 };
