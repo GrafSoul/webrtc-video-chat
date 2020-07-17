@@ -7,6 +7,7 @@ import LinkRoom from '../components/LinkRoom';
 import SettingsRoom from '../components/SettingsRoom';
 import StreamControl from '../components/StreamControl';
 import ExitButton from '../components/ExitButton';
+import Loader from '../components/Loader';
 
 const Room = ({ match, history }) => {
     const [audio, setAudio] = useState(true);
@@ -16,6 +17,7 @@ const Room = ({ match, history }) => {
     const [fullScreen, setFullScreen] = useState(false);
     const [settings, setSettings] = useState(false);
     const [shareLink, setShareLink] = useState(false);
+    const [spinner, setSpinner] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -110,6 +112,8 @@ const Room = ({ match, history }) => {
 
                 socketRef.current.on('ice-candidate', handleNewICECandidateMsg);
             });
+
+        setTimeout(() => setSpinner(true), 1000);
     }, [audio, video, match]);
 
     function handleNegotiationNeededEvent(userID) {
@@ -280,6 +284,11 @@ const Room = ({ match, history }) => {
                 copied={isCopied}
                 url={window.location.href}
             />
+            {!spinner && (
+                <div class="loader">
+                    <Loader />
+                </div>
+            )}
         </>
     );
 };
