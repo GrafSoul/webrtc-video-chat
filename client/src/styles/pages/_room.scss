@@ -25,6 +25,21 @@
             border: 3px solid $color-primary-light;
         }
 
+
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .video {
+
+        .user-video {
+            transform: scale(0.7) translate(45px, -33px);
+
+
+            video {
+                border: 2px solid $color-primary-light;
+            }
+        }
     }
 }
 
@@ -33,7 +48,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px 10px 40px;
+    padding: 0 75px 35px;
 
     .btn {
         width: 50px;

@@ -40,7 +40,9 @@ const CreateRoom = ({ history }) => {
                             </p>
                         </div>
 
-                        <div className="link-url">{url}</div>
+                        <div className="link-url">
+                            <p>{url}</p>
+                        </div>
 
                         <div className="qrcode">
                             <QRCodeImage url={url} />
