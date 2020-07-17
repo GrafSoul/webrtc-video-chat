@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { v1 as uuid } from 'uuid';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import QRCodeImage from '../components/QRCodeImage';
+import Loader from '../components/Loader';
 
 const CreateRoom = ({ history }) => {
+    const [spinner, setSpinner] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setSpinner(true), 1000);
+    }, []);
+
     const id = uuid();
     const url = window.location.href + `room/${id}`;
 
@@ -47,7 +54,14 @@ const CreateRoom = ({ history }) => {
                     </section>
                 </main>
             </div>
+
             <Footer />
+
+            {!spinner && (
+                <div class="loader">
+                    <Loader />
+                </div>
+            )}
         </>
     );
 };
