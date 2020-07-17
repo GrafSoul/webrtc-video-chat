@@ -21,6 +21,10 @@
         p {
             margin-bottom: 10px;
         }
+
+        h2 {
+            margin-bottom: 30px;
+        }
     }
 
     .link-url {
@@ -50,13 +54,12 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-            transition: .3s all ease;
+            transition: 0.3s all ease;
 
             &:hover {
                 background-color: rgb(71, 194, 0);
                 box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
             }
         }
-
     }
 }

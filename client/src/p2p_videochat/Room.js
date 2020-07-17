@@ -114,7 +114,7 @@ const Room = ({ match, history }) => {
             });
 
         setTimeout(() => setSpinner(true), 1000);
-    }, [audio, video, match]);
+    }, [audio, video, match, senders]);
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current
