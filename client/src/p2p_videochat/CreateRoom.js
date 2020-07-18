@@ -86,7 +86,7 @@ const CreateRoom = ({ history }) => {
             <Footer />
 
             {!spinner && (
-                <div class="loader">
+                <div className="loader">
                     <Loader />
                 </div>
             )}

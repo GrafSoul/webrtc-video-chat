@@ -10,7 +10,7 @@ const LinkRoom = ({
     url,
 }) => {
     return (
-        <din className={['link', shareLink ? 'active' : null].join(' ')}>
+        <div className={['link', shareLink ? 'active' : null].join(' ')}>
             <button
                 className="btn-close"
                 onClick={handleShareLink}
@@ -25,7 +25,7 @@ const LinkRoom = ({
                 video chat
             </p>
             <p className="link-url">
-                <input type="text" value={url} />
+                <input type="text" value={url} onChange={() => {}} />
             </p>
 
             <div className="link-copy">
@@ -40,7 +40,7 @@ const LinkRoom = ({
             <div className="link-qrcode">
                 <QRCodeImage url={url} />
             </div>
-        </din>
+        </div>
     );
 };
 

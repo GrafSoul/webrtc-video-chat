@@ -114,7 +114,7 @@ const Room = ({ match, history }) => {
             });
 
         setTimeout(() => setSpinner(true), 1000);
-    }, [audio, video, match, senders]);
+    }, [audio, video, match, spinner]);
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current
@@ -198,13 +198,16 @@ const Room = ({ match, history }) => {
         navigator.clipboard
             .writeText(url)
             .then(() => {
-                console.log('Copied!');
                 setIsCopied(true);
                 setTimeout(() => setIsCopied(false), 1000);
             })
             .catch((err) => {
                 console.log('Something went wrong', err);
             });
+
+        setTimeout(() => {
+            handleShareLink();
+        }, 1800);
     }
 
     function handleShareLink() {
@@ -285,7 +288,7 @@ const Room = ({ match, history }) => {
                 url={window.location.href}
             />
             {!spinner && (
-                <div class="loader">
+                <div className="loader">
                     <Loader />
                 </div>
             )}

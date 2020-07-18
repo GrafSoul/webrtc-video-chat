@@ -2,7 +2,7 @@ import React from 'react';
 
 const SettingsRoom = ({ settings, handleToggleSettings }) => {
     return (
-        <din className={['settings', settings ? 'active' : null].join(' ')}>
+        <div className={['settings', settings ? 'active' : null].join(' ')}>
             <button
                 className="btn-close"
                 onClick={handleToggleSettings}
@@ -12,7 +12,7 @@ const SettingsRoom = ({ settings, handleToggleSettings }) => {
             </button>
 
             <h2>Settings</h2>
-        </din>
+        </div>
     );
 };
 
