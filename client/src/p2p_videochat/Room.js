@@ -18,6 +18,7 @@ const Room = ({ match, history }) => {
     const [settings, setSettings] = useState(false);
     const [shareLink, setShareLink] = useState(false);
     const [spinner, setSpinner] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -98,6 +99,7 @@ const Room = ({ match, history }) => {
                 socketRef.current = io.connect('/');
                 socketRef.current.emit('join room', match.params.roomID);
                 socketRef.current.on('other user', (userID) => {
+                    setUpdate(true);
                     callUser(userID);
                     otherUser.current = userID;
                 });
@@ -288,6 +290,7 @@ const Room = ({ match, history }) => {
                 handleShareMonitor={handleShareMonitor}
                 handleToggleSettings={handleToggleSettings}
                 otherUser={otherUser.current}
+                update={update}
             />
 
             <Footer />

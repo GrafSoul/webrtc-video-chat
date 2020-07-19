@@ -12,6 +12,7 @@ const StreamControl = ({
     openFullMonitor,
     handleShareMonitor,
     handleToggleSettings,
+    update,
 }) => {
     return (
         <div className="stream-control">
@@ -79,13 +80,15 @@ const StreamControl = ({
                 >
                     <span className="icon icon-monitor"></span>
                 </button>
-                <button
-                    className="btn"
-                    onClick={handleShareMonitor}
-                    title="Share Content"
-                >
-                    <span className="icon icon-share"></span>
-                </button>
+                {update && (
+                    <button
+                        className="btn"
+                        onClick={handleShareMonitor}
+                        title="Share Content"
+                    >
+                        <span className="icon icon-share"></span>
+                    </button>
+                )}
             </div>
 
             <div className="btn-settings">
