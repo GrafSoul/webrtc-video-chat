@@ -90,7 +90,7 @@ const Room = ({ match, history }) => {
         }
 
         navigator.mediaDevices
-            .getUserMedia({ audio: audio, video: video })
+            .getUserMedia({ audio: true, video: true })
             .then((stream) => {
                 userVideo.current.srcObject = stream;
                 userStream.current = stream;
@@ -114,7 +114,7 @@ const Room = ({ match, history }) => {
             });
 
         setTimeout(() => setSpinner(true), 1000);
-    }, [audio, video, match]);
+    }, [match]);
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current
@@ -159,19 +159,23 @@ const Room = ({ match, history }) => {
     }
 
     function handleShareMonitor() {
-        navigator.mediaDevices
-            .getDisplayMedia({ cursor: true })
-            .then((stream) => {
-                const screenTrack = stream.getTracks()[0];
-                senders.current
-                    .find((sender) => sender.track.kind === 'video')
-                    .replaceTrack(screenTrack);
-                screenTrack.onended = function () {
+        if (senders.current.length === 0) {
+            return false;
+        } else {
+            navigator.mediaDevices
+                .getDisplayMedia({ cursor: true })
+                .then((stream) => {
+                    const screenTrack = stream.getTracks()[0];
                     senders.current
                         .find((sender) => sender.track.kind === 'video')
-                        .replaceTrack(userStream.current.getTracks()[1]);
-                };
-            });
+                        .replaceTrack(screenTrack);
+                    screenTrack.onended = function () {
+                        senders.current
+                            .find((sender) => sender.track.kind === 'video')
+                            .replaceTrack(userStream.current.getTracks()[1]);
+                    };
+                });
+        }
     }
 
     function handleToggleSettings() {
@@ -183,11 +187,23 @@ const Room = ({ match, history }) => {
     }
 
     function handleToggleMic() {
-        setAudio(!audio);
+        if (
+            userStream.current != null &&
+            userStream.current.getAudioTracks().length > 0
+        ) {
+            userStream.current.getAudioTracks()[0].enabled = !audio;
+            setAudio(!audio);
+        }
     }
 
     function handleToggleCamera() {
-        setVideo(!video);
+        if (
+            userStream.current != null &&
+            userStream.current.getVideoTracks().length > 0
+        ) {
+            userStream.current.getVideoTracks()[0].enabled = !video;
+            setVideo(!video);
+        }
     }
 
     function handleToggleFullScreen() {
@@ -271,6 +287,7 @@ const Room = ({ match, history }) => {
                 openFullMonitor={openFullMonitor}
                 handleShareMonitor={handleShareMonitor}
                 handleToggleSettings={handleToggleSettings}
+                otherUser={otherUser.current}
             />
 
             <Footer />
