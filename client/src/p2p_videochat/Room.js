@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import adapter from 'webrtc-adapter';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
