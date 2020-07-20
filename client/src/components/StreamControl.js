@@ -11,7 +11,7 @@ const StreamControl = ({
     handleToggleFullScreen,
     openFullMonitor,
     handleShareMonitor,
-    handleToggleSettings,
+    // handleToggleSettings,
     update,
 }) => {
     return (
