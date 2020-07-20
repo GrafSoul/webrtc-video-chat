@@ -12,6 +12,10 @@
         &.active {
             object-fit: cover;
         }
+
+        &.mirror {
+            transform: rotateY(180deg);
+        }
     }
 
     .user-video {
@@ -110,15 +114,27 @@
         }
 
         &.icon-fullscreen {
-            background-position: 0 -50px;
-        }
-
-        &.icon-fullscreen.off {
             background-position: 0 -100px;
         }
 
+        &.icon-fullscreen.off {
+            background-position: 0 -50px;
+        }
+
         &.icon-monitor {
+            background-position: -200px -100px;
+        }
+
+        &.icon-monitor.off {
             background-position: -200px -50px;
+        }
+
+        &.icon-mirror {
+            background-position: -50px -150px;
+        }
+
+        &.icon-mirror.off {
+            background-position: 0 -150px;
         }
 
         &.icon-share {

@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+// eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LinkRoom from '../components/LinkRoom';
-// import SettingsRoom from '../components/SettingsRoom';
 import StreamControl from '../components/StreamControl';
 import ExitButton from '../components/ExitButton';
 import Loader from '../components/Loader';
@@ -16,6 +16,7 @@ const Room = ({ match, history }) => {
     const [sound, setSound] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
     const [fullScreen, setFullScreen] = useState(false);
+    const [mirror, setMirror] = useState(false);
     const [settings, setSettings] = useState(false);
     const [shareLink, setShareLink] = useState(false);
     const [spinner, setSpinner] = useState(false);
@@ -213,6 +214,10 @@ const Room = ({ match, history }) => {
         setFullScreen(!fullScreen);
     }
 
+    function handleToggleMirror() {
+        setMirror(!mirror);
+    }
+
     function handleCopyLink(url) {
         navigator.clipboard
             .writeText(url)
@@ -233,22 +238,6 @@ const Room = ({ match, history }) => {
         setShareLink(!shareLink);
     }
 
-    function openFullMonitor() {
-        const elem = document.getElementById('partner');
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.mozRequestFullScreen) {
-            /* Firefox */
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullscreen) {
-            /* Chrome, Safari & Opera */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-            /* IE/Edge */
-            elem.msRequestFullscreen();
-        }
-    }
-
     const exitRoom = () => {
         history.push('/');
     };
@@ -266,7 +255,10 @@ const Room = ({ match, history }) => {
                     autoPlay
                     muted={sound}
                     ref={partnerVideo}
-                    className={fullScreen ? 'active' : null}
+                    className={[
+                        mirror ? 'mirror' : null,
+                        fullScreen ? 'active' : null,
+                    ].join(' ')}
                 ></video>
                 <div className="user-video">
                     <video
@@ -287,19 +279,16 @@ const Room = ({ match, history }) => {
                 handleToggleSound={handleToggleSound}
                 sound={sound}
                 handleToggleFullScreen={handleToggleFullScreen}
-                openFullMonitor={openFullMonitor}
                 handleShareMonitor={handleShareMonitor}
                 handleToggleSettings={handleToggleSettings}
+                handleToggleMirror={handleToggleMirror}
                 otherUser={otherUser.current}
                 update={update}
+                mirror={mirror}
+                fullScreen={fullScreen}
             />
 
             <Footer />
-
-            {/* <SettingsRoom
-                settings={settings}
-                handleToggleSettings={handleToggleSettings}
-            /> */}
 
             <LinkRoom
                 shareLink={shareLink}

@@ -1,4 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+if (!document.fullscreenElement) {
+    Object.defineProperty(document, 'fullscreenElement', {
+        get: function () {
+            return (
+                document.mozFullScreenElement ||
+                document.msFullscreenElement ||
+                document.webkitFullscreenElement
+            );
+        },
+    });
+
+    Object.defineProperty(document, 'fullscreenEnabled', {
+        get: function () {
+            return (
+                document.mozFullScreenEnabled ||
+                document.msFullscreenEnabled ||
+                document.webkitFullscreenEnabled
+            );
+        },
+    });
+}
 
 const StreamControl = ({
     handleShareLink,
@@ -9,11 +31,24 @@ const StreamControl = ({
     handleToggleSound,
     sound,
     handleToggleFullScreen,
-    openFullMonitor,
     handleShareMonitor,
-    // handleToggleSettings,
+    handleToggleMirror,
+    mirror,
     update,
+    fullScreen,
 }) => {
+    const [fullMonitor, setFullMonitor] = useState(false);
+
+    const handleFullscreen = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.documentElement.requestFullscreen();
+        }
+        setFullMonitor(!fullMonitor);
+        return false;
+    };
+
     return (
         <div className="stream-control">
             <div className="btn-link">
@@ -53,6 +88,7 @@ const StreamControl = ({
                         ].join(' ')}
                     ></span>
                 </button>
+
                 <button
                     className="btn"
                     onClick={handleToggleSound}
@@ -66,20 +102,49 @@ const StreamControl = ({
                         ].join(' ')}
                     ></span>
                 </button>
+
+                <button
+                    className="btn"
+                    onClick={handleToggleMirror}
+                    title="Mirror"
+                >
+                    <span
+                        className={[
+                            'icon',
+                            'icon-mirror',
+                            mirror ? null : 'off',
+                        ].join(' ')}
+                    ></span>
+                </button>
+
                 <button
                     className="btn"
                     onClick={handleToggleFullScreen}
                     title="Fullscreen ON/OFF"
                 >
-                    <span className="icon icon-fullscreen"></span>
+                    <span
+                        className={[
+                            'icon',
+                            'icon-fullscreen',
+                            fullScreen ? null : 'off',
+                        ].join(' ')}
+                    ></span>
                 </button>
+
                 <button
                     className="btn"
-                    onClick={openFullMonitor}
+                    onClick={() => handleFullscreen()}
                     title="Monitor"
                 >
-                    <span className="icon icon-monitor"></span>
+                    <span
+                        className={[
+                            'icon',
+                            'icon-monitor',
+                            fullMonitor ? null : 'off',
+                        ].join(' ')}
+                    ></span>
                 </button>
+
                 {update && (
                     <button
                         className="btn"
@@ -90,16 +155,6 @@ const StreamControl = ({
                     </button>
                 )}
             </div>
-
-            {/* <div className="btn-settings">
-                <button
-                    className="btn"
-                    onClick={handleToggleSettings}
-                    title="Open Settings"
-                >
-                    <span className="icon icon-settings"></span>
-                </button>
-            </div> */}
         </div>
     );
 };
