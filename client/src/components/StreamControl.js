@@ -91,7 +91,7 @@ const StreamControl = ({
                 )}
             </div>
 
-            <div className="btn-settings">
+            {/* <div className="btn-settings">
                 <button
                     className="btn"
                     onClick={handleToggleSettings}
@@ -99,7 +99,7 @@ const StreamControl = ({
                 >
                     <span className="icon icon-settings"></span>
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };

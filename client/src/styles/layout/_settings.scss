@@ -22,6 +22,42 @@
         font-size: 1.4em;
     }
 
+    label {
+        display: block;
+        font-size: 1.1em;
+        line-height: 1.2em;
+        color: $color-white;
+        font-weight: 700;
+        margin-bottom: 5px
+    }
+
+    .select {
+        width: 255px;
+        margin-bottom: 30px;
+
+        select {
+            width: 255px;
+            padding: 7px;
+            margin: 0;
+            font-size: 1.1em;
+            border-radius: 4px;
+            background: #f8f8f8;
+            color: $color-primary;
+            border: none;
+            outline: none;
+            display: block;
+            cursor: pointer;
+        }
+
+    }
+
+    .info {
+        margin-bottom: 30px;
+        color: $color-white;
+        font-size: 1.2em;
+        line-height: 1.4em;
+    }
+
     .btn-close {
         position: absolute;
         top: 0;

@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LinkRoom from '../components/LinkRoom';
-import SettingsRoom from '../components/SettingsRoom';
+// import SettingsRoom from '../components/SettingsRoom';
 import StreamControl from '../components/StreamControl';
 import ExitButton from '../components/ExitButton';
 import Loader from '../components/Loader';
@@ -295,10 +295,10 @@ const Room = ({ match, history }) => {
 
             <Footer />
 
-            <SettingsRoom
+            {/* <SettingsRoom
                 settings={settings}
                 handleToggleSettings={handleToggleSettings}
-            />
+            /> */}
 
             <LinkRoom
                 shareLink={shareLink}
