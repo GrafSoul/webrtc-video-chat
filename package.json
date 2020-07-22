@@ -1,6 +1,6 @@
 {
     "name": "webrtc-video-chat",
-    "version": "0.0.1",
+    "version": "0.1.5",
     "description": "Video Chat (WebRTC). A simple example of using WebRTC technology to create a video chat.",
     "main": "./server/index.js",
     "repository": "https://github.com/GrafSoul/webrtc-video-chat.git",

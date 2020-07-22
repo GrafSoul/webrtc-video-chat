@@ -1,10 +1,8 @@
 # VID.OK | Video chat (WebRTC)
 
-## The project is under construction!
-
 VID.OK - simple example of using WebRTC technology to create a video chat
 
-WebRTC technology allows you to establish formal and secure connections between clients,
+[WebRTC] technology allows you to establish formal and secure connections between clients,
 but everything is possible in our world :). I am not responsible for your use of this project.
 You are acting at your own risk.
 
@@ -51,6 +49,10 @@ yarn start
 
 ```
 
+### Copyright
+
+The project is originally based on a repository [coding-with-chaim]. Thank you Chaim!
+
 ### License
 
 © 2020 | VID.OK | Video chat (WebRTC) [MIT licensed].
@@ -60,3 +62,5 @@ yarn start
 [yarn]: https://yarnpkg.com/
 [mit licensed]: https://github.com/GrafSoul/webrtc-video-chat.git/blob/master/LICENSE
 [heroku]: https://www.heroku.com/
+[webrtc]: https://webrtc.github.io/samples/
+[coding-with-chaim]: https://github.com/coding-with-chaim/react-video-chat
