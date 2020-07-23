@@ -1,25 +1,14 @@
 .settings {
-    width: 300px;
-    padding: 50px 20px 20px;
-    position: absolute;
-    right: -310px;
-    top: 0;
-    bottom: 0;
-    border-left: 3px solid $color-primary-light;
-    background-color: $color-primary-dark;
-    box-shadow: -3px -3px 10px rgba(0, 0, 0, 0.5);
-    z-index: 110;
-    overflow-y: auto;
-    transition: 0.3s all ease;
-
-    &.active {
-        right: 0;
-    }
-
     h2 {
         margin-bottom: 20px;
         color: $color-white;
         font-size: 1.4em;
+    }
+
+    video {
+        max-width: 400px;
+        border: 3px solid $color-primary-light;
+        margin-bottom: 20px;
     }
 
     label {
@@ -28,15 +17,16 @@
         line-height: 1.2em;
         color: $color-white;
         font-weight: 700;
-        margin-bottom: 5px
+        margin-bottom: 10px;
     }
 
     .select {
-        width: 255px;
-        margin-bottom: 30px;
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto 15px;
 
         select {
-            width: 255px;
+            width: 100%;
             padding: 7px;
             margin: 0;
             font-size: 1.1em;
@@ -48,43 +38,16 @@
             display: block;
             cursor: pointer;
         }
-
     }
 
     .info {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         color: $color-white;
         font-size: 1.2em;
-        line-height: 1.4em;
+        line-height: 1.2em;
     }
 
-    .btn-close {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 50px;
-        height: 50px;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        display: inline-block;
-        border: none;
-        outline: none;
-        background-color: transparent;
-        cursor: pointer;
-        transition: 0.3s all ease;
-
-        &:hover {
-            opacity: 0.5;
-        }
-
-        .icon-close {
-            width: 50px;
-            height: 50px;
-            padding: 0;
-            margin: 0;
-            display: block;
-            background: url("../../images/sprite_icons.png") no-repeat -150px -100px;
-        }
+    .btn-go {
+        margin-bottom: 10px;
     }
 }

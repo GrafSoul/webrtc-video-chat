@@ -24,6 +24,7 @@ const Room = ({ match, history }) => {
 
     const userVideo = useRef();
     const partnerVideo = useRef();
+
     const peerRef = useRef();
     const socketRef = useRef();
     const otherUser = useRef();
@@ -288,8 +289,6 @@ const Room = ({ match, history }) => {
                 fullScreen={fullScreen}
             />
 
-            <Footer />
-
             <LinkRoom
                 shareLink={shareLink}
                 handleShareLink={handleShareLink}
@@ -297,11 +296,14 @@ const Room = ({ match, history }) => {
                 copied={isCopied}
                 url={window.location.href}
             />
+
             {!spinner && (
                 <div className="loader">
                     <Loader />
                 </div>
             )}
+
+            <Footer />
         </>
     );
 };
