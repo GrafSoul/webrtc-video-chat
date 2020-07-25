@@ -5,6 +5,11 @@
         font-size: 1.4em;
     }
 
+    .invisible {
+        height: 0;
+        visibility: hidden;
+    }
+
     .video-content {
         display: flex;
         flex-direction: column;
