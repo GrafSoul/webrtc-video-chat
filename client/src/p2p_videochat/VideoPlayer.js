@@ -10,7 +10,7 @@ import StreamControl from '../components/StreamControl';
 import ExitButton from '../components/ExitButton';
 import Loader from '../components/Loader';
 
-const Room = ({ id, history, constraints }) => {
+const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [audio, setAudio] = useState(true);
     const [video, setVideo] = useState(true);
     const [sound, setSound] = useState(false);
@@ -247,7 +247,10 @@ const Room = ({ id, history, constraints }) => {
 
             <ExitButton exitRoom={exitRoom} />
 
-            <div className="video">
+            <div
+                className="video"
+                style={onlyAudio ? { visibility: 'hidden' } : null}
+            >
                 <video
                     id="partner"
                     poster="images/poster.jpg"
@@ -285,6 +288,7 @@ const Room = ({ id, history, constraints }) => {
                 update={update}
                 mirror={mirror}
                 fullScreen={fullScreen}
+                onlyAudio={onlyAudio}
             />
 
             <LinkRoom
@@ -306,4 +310,4 @@ const Room = ({ id, history, constraints }) => {
     );
 };
 
-export default Room;
+export default VideoPlayer;

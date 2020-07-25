@@ -36,6 +36,7 @@ const StreamControl = ({
     mirror,
     update,
     fullScreen,
+    onlyAudio,
 }) => {
     const [fullMonitor, setFullMonitor] = useState(false);
 
@@ -75,19 +76,6 @@ const StreamControl = ({
                         ].join(' ')}
                     ></span>
                 </button>
-                <button
-                    className="btn"
-                    onClick={handleToggleCamera}
-                    title="Camera ON/OFF"
-                >
-                    <span
-                        className={[
-                            'icon',
-                            'icon-camera',
-                            video ? null : 'off',
-                        ].join(' ')}
-                    ></span>
-                </button>
 
                 <button
                     className="btn"
@@ -103,49 +91,65 @@ const StreamControl = ({
                     ></span>
                 </button>
 
-                <button
-                    className="btn"
-                    onClick={handleToggleMirror}
-                    title="Mirror"
-                >
-                    <span
-                        className={[
-                            'icon',
-                            'icon-mirror',
-                            mirror ? null : 'off',
-                        ].join(' ')}
-                    ></span>
-                </button>
+                <span style={onlyAudio ? { display: 'none' } : null}>
+                    <button
+                        className="btn"
+                        onClick={handleToggleCamera}
+                        title="Camera ON/OFF"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-camera',
+                                video ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
 
-                <button
-                    className="btn"
-                    onClick={handleToggleFullScreen}
-                    title="Fullscreen ON/OFF"
-                >
-                    <span
-                        className={[
-                            'icon',
-                            'icon-fullscreen',
-                            fullScreen ? null : 'off',
-                        ].join(' ')}
-                    ></span>
-                </button>
+                    <button
+                        className="btn"
+                        onClick={handleToggleMirror}
+                        title="Mirror"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-mirror',
+                                mirror ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
 
-                <button
-                    className="btn"
-                    onClick={() => handleFullscreen()}
-                    title="Monitor"
-                >
-                    <span
-                        className={[
-                            'icon',
-                            'icon-monitor',
-                            fullMonitor ? null : 'off',
-                        ].join(' ')}
-                    ></span>
-                </button>
+                    <button
+                        className="btn"
+                        onClick={handleToggleFullScreen}
+                        title="Fullscreen ON/OFF"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-fullscreen',
+                                fullScreen ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
 
-                {update && (
+                    <button
+                        className="btn"
+                        onClick={() => handleFullscreen()}
+                        title="Monitor"
+                    >
+                        <span
+                            className={[
+                                'icon',
+                                'icon-monitor',
+                                fullMonitor ? null : 'off',
+                            ].join(' ')}
+                        ></span>
+                    </button>
+                </span>
+
+                {update && !onlyAudio && (
                     <button
                         className="btn"
                         onClick={handleShareMonitor}

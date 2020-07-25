@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 // eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
-export default function Settings({ startChat }) {
+export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
     const videoElement = useRef();
     const audioInputSelect = useRef();
     const audioOutputSelect = useRef();
@@ -78,13 +78,18 @@ export default function Settings({ startChat }) {
         function start() {
             const audioSource = audioInputSelect.current.value;
             const videoSource = videoSelect.current.value;
+
             constraints.current = {
                 audio: {
                     deviceId: audioSource ? { exact: audioSource } : undefined,
                 },
-                video: {
-                    deviceId: videoSource ? { exact: videoSource } : undefined,
-                },
+                video: onlyAudio
+                    ? false
+                    : {
+                          deviceId: videoSource
+                              ? { exact: videoSource }
+                              : undefined,
+                      },
             };
 
             navigator.mediaDevices
@@ -100,15 +105,17 @@ export default function Settings({ startChat }) {
         videoSelect.current.onchange = start;
 
         start();
-    }, []);
 
-    function handleError(error) {
-        console.log(
-            'navigator.MediaDevices.getUserMedia error: ',
-            error.message,
-            error.name,
-        );
-    }
+        function handleError(error) {
+            handleOnlyAudio();
+            console.log(onlyAudio);
+            console.log(
+                'navigator.MediaDevices.getUserMedia error: ',
+                error.message,
+                error.name,
+            );
+        }
+    }, [onlyAudio, handleOnlyAudio]);
 
     function attachSinkId(element, sinkId) {
         if (typeof element.sinkId !== 'undefined') {
@@ -142,21 +149,33 @@ export default function Settings({ startChat }) {
         <>
             <div className="container">
                 <section className="create-room settings">
-                    <h2>Configure your camera and audio devices</h2>
+                    <h2>
+                        Configure your {onlyAudio ? null : 'camera and '} audio
+                        devices
+                    </h2>
 
-                    <div className="video-content">
-                        <video
-                            id="video"
-                            poster="images/poster.jpg"
-                            autoPlay
-                            playsInline
-                            ref={videoElement}
-                        ></video>
-                    </div>
+                    {onlyAudio && (
+                        <h3>
+                            You do not have a video camera connected,
+                            <br /> you can only communicate by voice
+                        </h3>
+                    )}
 
-                    <div className="select">
-                        <label htmlFor="videoSource">Video source:</label>
-                        <select id="videoSource" ref={videoSelect}></select>
+                    <div className={[onlyAudio ? 'invisible' : null]}>
+                        <div className="video-content">
+                            <video
+                                id="video"
+                                poster="images/poster.jpg"
+                                autoPlay
+                                playsInline
+                                ref={videoElement}
+                            ></video>
+                        </div>
+
+                        <div className="select">
+                            <label htmlFor="videoSource">Video source:</label>
+                            <select id="videoSource" ref={videoSelect}></select>
+                        </div>
                     </div>
 
                     <div className="select">

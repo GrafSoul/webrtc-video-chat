@@ -11,6 +11,7 @@ import Settings from './Settings';
 
 const Room = ({ match, history }) => {
     const [constraints, setConstraints] = useState({});
+    const [onlyAudio, setOnlyAudio] = useState(false);
     const [spinner, setSpinner] = useState(false);
     const [open, setSOpen] = useState(false);
 
@@ -29,19 +30,30 @@ const Room = ({ match, history }) => {
         setSOpen(true);
     };
 
+    const handleOnlyAudio = () => {
+        setOnlyAudio(true);
+    };
+
     return (
         <>
             <Header />
 
             <ExitButton exitRoom={exitRoom} />
 
-            {!open && <Settings startChat={startChat} />}
+            {!open && (
+                <Settings
+                    startChat={startChat}
+                    handleOnlyAudio={handleOnlyAudio}
+                    onlyAudio={onlyAudio}
+                />
+            )}
 
             {open && (
                 <VideoPlayer
                     id={id}
                     history={history}
                     constraints={constraints}
+                    onlyAudio={onlyAudio}
                 />
             )}
 
