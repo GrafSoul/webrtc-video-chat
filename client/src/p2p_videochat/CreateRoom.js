@@ -75,7 +75,7 @@ const CreateRoom = ({ history }) => {
 
                             <div className="btn-go">
                                 <button onClick={() => createRoom()}>
-                                    Create Room
+                                    Create a New Connection
                                 </button>
                             </div>
                         </section>

@@ -203,7 +203,7 @@ export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
 
                     <div className="btn-go">
                         <button onClick={() => startChat(constraints.current)}>
-                            Start Chat
+                            Start {onlyAudio ? 'Audio' : 'Video'} Chat
                         </button>
                     </div>
                 </section>
