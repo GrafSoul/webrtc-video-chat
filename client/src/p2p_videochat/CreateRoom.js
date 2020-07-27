@@ -3,6 +3,7 @@ import { v1 as uuid } from 'uuid';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import CopyLink from '../components/CopyLink';
 import QRCodeImage from '../components/QRCodeImage';
 import Loader from '../components/Loader';
 
@@ -66,6 +67,7 @@ const CreateRoom = ({ history }) => {
                             </div>
 
                             <div className="link-url">
+                                <CopyLink url={url} />
                                 <p>{url}</p>
                             </div>
 

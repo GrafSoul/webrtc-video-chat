@@ -28,8 +28,9 @@
     }
 
     .link-url {
+        position: relative;
         display: block;
-        padding: 10px 20px;
+        padding: 10px 47px 10px 20px;
         margin-bottom: 30px;
         color: $color-white;
         font-size: 1.2em;
@@ -37,6 +38,44 @@
         background-color: $color-primary-light;
         border-radius: 6px;
         word-wrap: break-word;
+    }
+
+    .copy {
+        width: 33px;
+        height: 33px;
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        border: 1px solid #6aa0cf;
+        background-color: $color-primary-light;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+
+        img {
+            width: 30px;
+            height: 30px;
+            padding: 3px;
+            display: block;
+        }
+
+        &:hover {
+            background-color: rgb(53, 100, 139);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .copied {
+            display: inline-block;
+            font-size: 0.8em;
+            padding: 1px 7px 3px;
+            color: rgb(53, 100, 139);
+            background-color: $color-grey-light-1;
+            border-radius: 6px;
+            position: absolute;
+            top: -40px;
+            right: -16px;
+        }
     }
 
     .qrcode {
