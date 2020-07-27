@@ -6,8 +6,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ExitButton from '../components/ExitButton';
 import Loader from '../components/Loader';
-import VideoPlayer from './VideoPlayer';
-import Settings from './Settings';
+import VideoPlayer from '../components/VideoPlayer';
+import Settings from '../components/Settings';
 
 const Room = ({ match, history }) => {
     const [constraints, setConstraints] = useState({});

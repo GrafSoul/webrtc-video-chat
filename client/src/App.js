@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import CreateRoom from './p2p_videochat/CreateRoom';
-import Room from './p2p_videochat/Room';
+import CreateRoom from './P2P_VideoAudioChat/CreateRoom';
+import Room from './P2P_VideoAudioChat/Room';
 
 function App() {
     return (

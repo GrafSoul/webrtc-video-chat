@@ -3,12 +3,12 @@ import io from 'socket.io-client';
 // eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import LinkRoom from '../components/LinkRoom';
-import StreamControl from '../components/StreamControl';
-import ExitButton from '../components/ExitButton';
-import Loader from '../components/Loader';
+import Header from './Header';
+import Footer from './Footer';
+import LinkRoom from './LinkRoom';
+import StreamControl from './StreamControl';
+import ExitButton from './ExitButton';
+import Loader from './Loader';
 
 const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [audio, setAudio] = useState(true);
