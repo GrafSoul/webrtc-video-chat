@@ -25,6 +25,7 @@ const CreateRoom = ({ history }) => {
 
     const createRoom = () => {
         history.push(`/room/${id}`);
+        return false;
     };
 
     return (

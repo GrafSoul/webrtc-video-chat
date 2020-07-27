@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 // eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
+import AudioMeter from './AudioMeter';
+
 export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
     const videoElement = useRef();
     const audioInputSelect = useRef();
@@ -108,7 +110,6 @@ export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
 
         function handleError(error) {
             handleOnlyAudio();
-            console.log(onlyAudio);
             console.log(
                 'navigator.MediaDevices.getUserMedia error: ',
                 error.message,
@@ -180,6 +181,7 @@ export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
 
                     <div className="select">
                         <label htmlFor="audioSource">Audio input:</label>
+                        <AudioMeter />
                         <select
                             id="audioSource"
                             ref={audioInputSelect}
