@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 // eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
-import AudioMeter from './AudioMeter';
+import AudioInputMeter from './AudioInputMeter';
 
 export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
     const videoElement = useRef();
@@ -181,7 +181,7 @@ export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
 
                     <div className="select">
                         <label htmlFor="audioSource">Audio input:</label>
-                        <AudioMeter />
+                        <AudioInputMeter />
                         <select
                             id="audioSource"
                             ref={audioInputSelect}

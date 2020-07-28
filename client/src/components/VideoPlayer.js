@@ -9,6 +9,7 @@ import LinkRoom from './LinkRoom';
 import StreamControl from './StreamControl';
 import ExitButton from './ExitButton';
 import Loader from './Loader';
+import AudioBigMeter from './AudioBigMeter';
 
 const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [audio, setAudio] = useState(true);
@@ -51,8 +52,8 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
                     },
                     {
                         urls: 'turn:numb.viagenie.ca',
-                        credential: 'muazkh',
-                        username: 'webrtc@live.com',
+                        credential: 'vidokchat',
+                        username: 'networkroom@live.com',
                     },
                 ],
             });
@@ -246,6 +247,10 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
             <Header />
 
             <ExitButton exitRoom={exitRoom} />
+
+            {onlyAudio ? (
+                <AudioBigMeter userStream={userStream.current} />
+            ) : null}
 
             <div
                 className="video"

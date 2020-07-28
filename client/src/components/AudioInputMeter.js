@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from 'react';
 
-export default function AudioMeter() {
+export default function AudioInputMeter() {
     let audioContext = useRef(null);
     let canvasContext = useRef(null);
     let canvasMeter = useRef(null);
+    var mediaStreamSource = null;
     let meter = null;
     let rafID = null;
-    var mediaStreamSource = null;
     let WIDTH = 400;
     let HEIGHT = 10;
 
