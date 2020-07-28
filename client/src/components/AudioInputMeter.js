@@ -1,27 +1,27 @@
 import React, { useRef, useEffect } from 'react';
 
 export default function AudioInputMeter() {
-    let audioContext = useRef(null);
-    let canvasContext = useRef(null);
-    let canvasMeter = useRef(null);
-    var mediaStreamSource = null;
-    let meter = null;
-    let rafID = null;
+    const audioContext = useRef(null);
+    const canvasContext = useRef(null);
+    const canvasMeter = useRef(null);
+    const mediaStreamSource = useRef(null);
+    const meter = useRef(null);
+    const rafID = useRef(null);
     let WIDTH = 400;
     let HEIGHT = 10;
 
     useEffect(() => {
+        navigator.getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia;
+
         canvasMeter.current = canvasContext.current.getContext('2d');
 
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         audioContext.current = new AudioContext();
 
         try {
-            navigator.getUserMedia =
-                navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia;
-
             navigator.getUserMedia(
                 {
                     audio: {
@@ -47,11 +47,11 @@ export default function AudioInputMeter() {
     });
 
     function gotStream(stream) {
-        mediaStreamSource = audioContext.current.createMediaStreamSource(
+        mediaStreamSource.current = audioContext.current.createMediaStreamSource(
             stream,
         );
-        meter = createAudioMeter(audioContext.current);
-        mediaStreamSource.connect(meter);
+        meter.current = createAudioMeter(audioContext.current);
+        mediaStreamSource.current.connect(meter.current);
 
         drawLoop();
     }
@@ -59,16 +59,21 @@ export default function AudioInputMeter() {
     function drawLoop() {
         canvasMeter.current.clearRect(0, 0, WIDTH, HEIGHT);
 
-        if (meter.checkClipping()) {
+        if (meter.current.checkClipping()) {
             canvasMeter.current.fillStyle = 'red';
         } else {
             canvasMeter.current.fillStyle = 'green';
         }
 
-        canvasMeter.current.fillRect(0, 0, meter.volume * WIDTH * 1.4, HEIGHT);
+        canvasMeter.current.fillRect(
+            0,
+            0,
+            meter.current.volume * WIDTH * 1.4,
+            HEIGHT,
+        );
 
-        rafID = window.requestAnimationFrame(drawLoop);
-        return rafID;
+        rafID.current = window.requestAnimationFrame(drawLoop);
+        return rafID.current;
     }
 
     function createAudioMeter(audioContext, clipLevel, averaging, clipLag) {

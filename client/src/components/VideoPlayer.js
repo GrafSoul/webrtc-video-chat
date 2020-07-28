@@ -31,6 +31,11 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const senders = useRef([]);
 
     useEffect(() => {
+        navigator.getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia;
+
         function callUser(userID) {
             peerRef.current = createPeer(userID);
             userStream.current
