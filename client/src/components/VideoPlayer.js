@@ -3,13 +3,11 @@ import io from 'socket.io-client';
 // eslint-disable-next-line
 import adapter from 'webrtc-adapter';
 
-import Header from './Header';
-import Footer from './Footer';
 import LinkRoom from './LinkRoom';
 import StreamControl from './StreamControl';
 import ExitButton from './ExitButton';
 import Loader from './Loader';
-import AudioBigMeter from './AudioBigMeter';
+import AudioMeter from './AudioMeter';
 
 const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [audio, setAudio] = useState(true);
@@ -244,13 +242,29 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
 
     return (
         <>
-            <Header />
-
             <ExitButton exitRoom={exitRoom} />
 
             {onlyAudio ? (
-                <AudioBigMeter userStream={userStream.current} />
-            ) : null}
+                <AudioMeter
+                    userStream={userStream.current}
+                    number={32}
+                    widthLine={10}
+                    heightLine={100}
+                    lineClass="line-meter"
+                    meterClass="big-meter"
+                    model="big"
+                />
+            ) : (
+                <AudioMeter
+                    userStream={userStream.current}
+                    number={24}
+                    widthLine={3}
+                    heightLine={40}
+                    lineClass="line-small-meter"
+                    meterClass="small-meter"
+                    model="small"
+                />
+            )}
 
             <div
                 className="video"
@@ -309,8 +323,6 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
                     <Loader />
                 </div>
             )}
-
-            <Footer />
         </>
     );
 };

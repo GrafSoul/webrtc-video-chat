@@ -94,8 +94,34 @@
     overflow: hidden;
 }
 
+.small-meter {
+    margin: 0;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: absolute;
+    right: 43px;
+    top: 185px;
+    z-index: 250;
+}
+
 .line-meter {
     margin: 2px;
     border-radius: 30px;
     color: #426e92
+}
+
+.line-small-meter {
+    margin: 1px;
+    border-radius: 20px;
+    color: #426e92
+}
+
+@media only screen and (max-width: 600px) {
+    .small-meter {
+        right: 14px;
+        top: 140px;
+    }
 }
