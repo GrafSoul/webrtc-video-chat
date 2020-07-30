@@ -7,7 +7,7 @@ import CopyLink from '../components/CopyLink';
 import QRCodeImage from '../components/QRCodeImage';
 import Loader from '../components/Loader';
 
-const CreateRoom = ({ history }) => {
+const CreateChat = ({ history }) => {
     const [spinner, setSpinner] = useState(false);
 
     const browser = navigator.userAgent.toLowerCase();
@@ -21,10 +21,10 @@ const CreateRoom = ({ history }) => {
     }, []);
 
     const id = uuid();
-    const url = window.location.href + `room/${id}`;
+    const url = window.location.href + `chat/${id}`;
 
     const createRoom = () => {
-        history.push(`/room/${id}`);
+        history.push(`/chat/${id}`);
         return false;
     };
 
@@ -34,7 +34,7 @@ const CreateRoom = ({ history }) => {
             <div className="container">
                 <main>
                     {is_IE ? (
-                        <section className="create-room">
+                        <section className="create-chat">
                             <div className="crete-info">
                                 <h2>
                                     You are using a browser that does not
@@ -51,7 +51,7 @@ const CreateRoom = ({ history }) => {
                             </div>
                         </section>
                     ) : (
-                        <section className="create-room">
+                        <section className="create-chat">
                             <div className="crete-info">
                                 <p>
                                     <strong>VID.OK</strong> - Secure Video Chat.
@@ -61,9 +61,9 @@ const CreateRoom = ({ history }) => {
                                 </p>
                                 <p>
                                     To create a connection, click on the button
-                                    - <strong>"Create Room"</strong> and send
-                                    the link to the person with whom you want to
-                                    communicate.
+                                    - <strong>"Create a New Connection"</strong>{' '}
+                                    and send the link to the person with whom
+                                    you want to communicate.
                                 </p>
                             </div>
 
@@ -97,4 +97,4 @@ const CreateRoom = ({ history }) => {
     );
 };
 
-export default CreateRoom;
+export default CreateChat;

@@ -6,7 +6,7 @@ const Header = () => {
             <div className="header-wrap">
                 <h1>
                     <span className="logo">
-                        <img src="images/logo.svg" alt="Logo" />
+                        <img src="/images/logo.svg" alt="Logo" />
                     </span>
                     VID.OK
                 </h1>

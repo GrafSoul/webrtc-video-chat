@@ -44,7 +44,7 @@ const AudioMeter = ({
             }
             loop();
         } catch (error) {
-            alert(error + '\r\n Отклонено. Страница будет обновлена!');
+            alert(error + '\r\nRejected. The page will be updated!');
         }
 
         function loop() {

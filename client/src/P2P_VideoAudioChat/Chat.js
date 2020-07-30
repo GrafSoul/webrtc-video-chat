@@ -9,13 +9,13 @@ import Loader from '../components/Loader';
 import VideoPlayer from '../components/VideoPlayer';
 import Settings from '../components/Settings';
 
-const Room = ({ match, history }) => {
+const Chat = ({ match, history }) => {
     const [constraints, setConstraints] = useState({});
     const [onlyAudio, setOnlyAudio] = useState(false);
     const [spinner, setSpinner] = useState(false);
     const [open, setSOpen] = useState(false);
 
-    const id = match.params.roomID;
+    const id = match.params.id;
 
     useEffect(() => {
         setTimeout(() => setSpinner(true), 1000);
@@ -68,4 +68,4 @@ const Room = ({ match, history }) => {
     );
 };
 
-export default Room;
+export default Chat;

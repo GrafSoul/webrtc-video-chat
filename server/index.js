@@ -27,14 +27,14 @@ const io = socket(server); // Connected sockets to the server
 const rooms = {};
 
 io.on('connection', (socket) => {
-    socket.on('join room', (roomID) => {
-        if (rooms[roomID]) {
-            rooms[roomID].push(socket.id);
+    socket.on('join room', (id) => {
+        if (rooms[id]) {
+            rooms[id].push(socket.id);
         } else {
-            rooms[roomID] = [socket.id];
+            rooms[id] = [socket.id];
         }
 
-        const otherUser = rooms[roomID].find((id) => id !== socket.id);
+        const otherUser = rooms[id].find((id) => id !== socket.id);
 
         if (otherUser) {
             socket.emit('other user', otherUser);

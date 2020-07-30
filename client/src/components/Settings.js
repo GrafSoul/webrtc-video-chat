@@ -149,7 +149,7 @@ export default function Settings({ startChat, handleOnlyAudio, onlyAudio }) {
     return (
         <>
             <div className="container">
-                <section className="create-room settings">
+                <section className="create-chat settings">
                     <h2>
                         Configure your {onlyAudio ? null : 'camera and '} audio
                         devices
