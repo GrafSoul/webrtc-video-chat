@@ -20,6 +20,7 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [shareLink, setShareLink] = useState(false);
     const [spinner, setSpinner] = useState(false);
     const [update, setUpdate] = useState(false);
+    const [fullMonitor, setFullMonitor] = useState(false);
 
     const userVideo = useRef();
     const partnerVideo = useRef();
@@ -217,6 +218,16 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
         setFullScreen(!fullScreen);
     }
 
+    const handleFullscreen = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.documentElement.requestFullscreen();
+        }
+        setFullMonitor(!fullMonitor);
+        return false;
+    };
+
     function handleToggleMirror() {
         setMirror(!mirror);
     }
@@ -274,6 +285,7 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
             <div
                 className="video"
                 style={onlyAudio ? { visibility: 'hidden' } : null}
+                onClick={handleFullscreen}
             >
                 <video
                     id="partner"
@@ -313,6 +325,8 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
                 mirror={mirror}
                 fullScreen={fullScreen}
                 onlyAudio={onlyAudio}
+                fullMonitor={fullMonitor}
+                handleFullscreen={handleFullscreen}
             />
 
             <LinkRoom

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 if (!document.fullscreenElement) {
     Object.defineProperty(document, 'fullscreenElement', {
@@ -38,18 +38,6 @@ const StreamControl = ({
     fullScreen,
     onlyAudio,
 }) => {
-    const [fullMonitor, setFullMonitor] = useState(false);
-
-    const handleFullscreen = () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            document.documentElement.requestFullscreen();
-        }
-        setFullMonitor(!fullMonitor);
-        return false;
-    };
-
     return (
         <div className="stream-control">
             <div className="btn-link">
@@ -130,20 +118,6 @@ const StreamControl = ({
                                 'icon',
                                 'icon-fullscreen',
                                 fullScreen ? null : 'off',
-                            ].join(' ')}
-                        ></span>
-                    </button>
-
-                    <button
-                        className="btn"
-                        onClick={() => handleFullscreen()}
-                        title="Monitor"
-                    >
-                        <span
-                            className={[
-                                'icon',
-                                'icon-monitor',
-                                fullMonitor ? null : 'off',
                             ].join(' ')}
                         ></span>
                     </button>
