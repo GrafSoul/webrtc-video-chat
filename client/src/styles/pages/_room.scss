@@ -28,17 +28,13 @@
             height: 130px;
             border: 3px solid $color-primary-light;
         }
-
-
     }
 }
 
 @media only screen and (max-width: 600px) {
     .video {
-
         .user-video {
             transform: scale(0.7) translate(45px, -33px);
-
 
             video {
                 border: 2px solid $color-primary-light;
@@ -66,7 +62,7 @@
         background-color: rgba(20, 39, 56, 0.5);
         border-radius: 50%;
         cursor: pointer;
-        transition: .3s all ease;
+        transition: 0.3s all ease;
 
         &:hover {
             opacity: 0.5;
@@ -140,6 +136,10 @@
         &.icon-share {
             background-position: -50px -50px;
         }
+
+        &.icon-chat {
+            background-position: -99px -147px;
+        }
     }
 
     .btn-link {
@@ -148,7 +148,7 @@
         bottom: 35px;
     }
 
-    .btn-settings {
+    .btn-chat {
         position: absolute;
         right: 15px;
         bottom: 35px;
@@ -183,7 +183,7 @@
         background-color: rgba(20, 39, 56, 0.5);
         border-radius: 50%;
         cursor: pointer;
-        transition: .3s all ease;
+        transition: 0.3s all ease;
 
         &:hover {
             opacity: 0.5;

@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import adapter from 'webrtc-adapter';
 
 import LinkRoom from './LinkRoom';
+import ChatRoom from './ChatRoom';
 import StreamControl from './StreamControl';
 import ExitButton from './ExitButton';
 import Loader from './Loader';
@@ -18,6 +19,7 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [mirror, setMirror] = useState(false);
     const [settings, setSettings] = useState(false);
     const [shareLink, setShareLink] = useState(false);
+    const [shareChat, setShareChat] = useState(false);
     const [spinner, setSpinner] = useState(false);
     const [update, setUpdate] = useState(false);
     const [fullMonitor, setFullMonitor] = useState(false);
@@ -252,6 +254,10 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
         setShareLink(!shareLink);
     }
 
+    function handleShareChat() {
+        setShareChat(!shareChat);
+    }
+
     const exitRoom = () => {
         history.push('/');
     };
@@ -310,6 +316,7 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
 
             <StreamControl
                 handleShareLink={handleShareLink}
+                handleShareChat={handleShareChat}
                 handleToggleMic={handleToggleMic}
                 audio={audio}
                 handleToggleCamera={handleToggleCamera}
@@ -336,6 +343,8 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
                 copied={isCopied}
                 url={window.location.href}
             />
+
+            <ChatRoom shareChat={shareChat} handleShareChat={handleShareChat} />
 
             {!spinner && (
                 <div className="loader">

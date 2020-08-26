@@ -24,6 +24,7 @@ if (!document.fullscreenElement) {
 
 const StreamControl = ({
     handleShareLink,
+    handleShareChat,
     handleToggleMic,
     audio,
     handleToggleCamera,
@@ -132,6 +133,16 @@ const StreamControl = ({
                         <span className="icon icon-share"></span>
                     </button>
                 )}
+            </div>
+
+            <div className="btn-chat">
+                <button
+                    className="btn"
+                    onClick={handleShareChat}
+                    title="Open Link"
+                >
+                    <span className="icon icon-chat"></span>
+                </button>
             </div>
         </div>
     );
