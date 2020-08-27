@@ -10,7 +10,6 @@ const ChatRoom = ({
     message,
     yourID,
     messages,
-    currentEmoji,
 }) => {
     return (
         <div className={['chat', shareChat ? 'active' : null].join(' ')}>
