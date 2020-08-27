@@ -42,6 +42,11 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.emit('your id', socket.id);
+    socket.on('send message', (body) => {
+        io.emit('message', body);
+    });
+
     socket.on('offer', (payload) => {
         io.to(payload.target).emit('offer', payload);
     });

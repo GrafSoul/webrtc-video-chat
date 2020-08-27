@@ -9,8 +9,11 @@
         "qrcode.react": "^1.0.0",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
+        "react-emoji": "^0.5.0",
+        "react-emojipicker": "^1.1.1",
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.1",
+        "react-scrollbars-custom": "^4.0.25",
         "socket.io-client": "^2.3.0",
         "uuid": "^8.2.0",
         "webrtc-adapter": "^7.6.3"

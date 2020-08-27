@@ -24,6 +24,10 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
     const [update, setUpdate] = useState(false);
     const [fullMonitor, setFullMonitor] = useState(false);
 
+    const [yourID, setYourID] = useState();
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('');
+
     const userVideo = useRef();
     const partnerVideo = useRef();
 
@@ -125,6 +129,37 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
 
         setTimeout(() => setSpinner(true), 1000);
     }, [id, constraints]);
+
+    useEffect(() => {
+        socketRef.current = io.connect('/');
+        socketRef.current.on('your id', (id) => {
+            setYourID(id);
+        });
+
+        socketRef.current.on('message', (message) => {
+            console.log('here');
+            receivedMessage(message);
+            if (message !== '') setShareChat(true);
+        });
+    }, []);
+
+    function receivedMessage(message) {
+        setMessages((oldMsgs) => [...oldMsgs, message]);
+    }
+
+    function sendMessage(e) {
+        e.preventDefault();
+        const messageObject = {
+            body: message,
+            id: yourID,
+        };
+        setMessage('');
+        socketRef.current.emit('send message', messageObject);
+    }
+
+    function handleChange(e) {
+        setMessage(e.target.value);
+    }
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current
@@ -344,7 +379,15 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
                 url={window.location.href}
             />
 
-            <ChatRoom shareChat={shareChat} handleShareChat={handleShareChat} />
+            <ChatRoom
+                shareChat={shareChat}
+                handleShareChat={handleShareChat}
+                sendMessage={sendMessage}
+                handleChange={handleChange}
+                yourID={yourID}
+                message={message}
+                messages={messages}
+            />
 
             {!spinner && (
                 <div className="loader">

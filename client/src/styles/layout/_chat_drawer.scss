@@ -7,10 +7,10 @@
     bottom: 0;
     border-left: 3px solid $color-primary-light;
     background-color: $color-primary-dark;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
-    z-index: 110;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    z-index: 310;
     overflow-y: auto;
-    transition: .6s all ease-in;
+    transition: 0.6s all ease-in;
 
     &.active {
         right: 0;
@@ -36,7 +36,7 @@
         outline: none;
         background-color: transparent;
         cursor: pointer;
-        transition: .3s all ease;
+        transition: 0.3s all ease;
 
         &:hover {
             opacity: 0.5;
@@ -54,7 +54,7 @@
 
     .chat-wrap {
         display: flex;
-        height: 95%;
+        height: 100vh;
         max-height: 95%;
         width: 100%;
         padding: 0 0 20px;
@@ -67,12 +67,14 @@
         flex-direction: column;
         padding: 5px 10px;
         height: 600px;
-        max-height: 600px;
+        max-height: 100vh;
+        ;
         overflow: auto;
         width: 100%;
         border: 2px solid $color-primary-light;
         border-radius: 10px;
         padding-bottom: 10px;
+        box-shadow: inset 2px 2px 15px rgba(0, 0, 0, 0.5);
     }
 
     .in-row {
@@ -83,12 +85,13 @@
     }
 
     .in-message {
-        width: 45%;
+        width: 55%;
         background-color: $color-primary-light;
         color: $color-grey-light-1;
         padding: 10px;
         margin-right: 5px;
-        text-align: center;
+        text-align: left;
+        word-wrap: break-word;
         border-radius: 10px 10px 0 10px;
     }
 
@@ -100,13 +103,14 @@
     }
 
     .out-message {
-        width: 45%;
+        width: 55%;
         background-color: transparent;
         background-color: rgb(76, 132, 179);
         color: $color-grey-light-1;
         padding: 10px;
         margin-left: 5px;
-        text-align: center;
+        text-align: left;
+        word-wrap: break-word;
         border-radius: 10px 10px 10px 0;
     }
 
@@ -153,13 +157,10 @@
             background-color: rgb(71, 194, 0);
             box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
         }
-
     }
-
 }
 
 @media only screen and (max-width: 602px) {
-
     .chat {
         width: 100%;
     }
