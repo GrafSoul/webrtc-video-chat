@@ -1,7 +1,8 @@
 .chat {
     width: 600px;
     padding: 50px 20px 20px;
-    position: absolute;
+    position: fixed;
+    top: 0;
     right: -610px;
     top: 0;
     bottom: 0;
@@ -55,7 +56,7 @@
     .chat-wrap {
         display: flex;
         height: 100vh;
-        max-height: 95%;
+        max-height: 93%;
         width: 100%;
         padding: 0 0 20px;
         align-items: center;

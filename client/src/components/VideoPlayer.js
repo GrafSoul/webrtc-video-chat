@@ -137,13 +137,12 @@ const VideoPlayer = ({ id, history, constraints, onlyAudio }) => {
         });
 
         socketRef.current.on('message', (message) => {
-            console.log('here');
             receivedMessage(message);
-            if (message !== '') setShareChat(true);
         });
     }, []);
 
     function receivedMessage(message) {
+        if (message.body !== '') setShareChat(true);
         setMessages((oldMsgs) => [...oldMsgs, message]);
     }
 
