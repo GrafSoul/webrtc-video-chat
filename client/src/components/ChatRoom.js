@@ -11,7 +11,6 @@ const ChatRoom = ({
     yourID,
     messages,
 }) => {
-    console.log(shareChat);
     return (
         <div className={['chat', shareChat ? 'active' : null].join(' ')}>
             <button
